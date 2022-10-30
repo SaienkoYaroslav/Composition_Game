@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">Composition Game</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="welcome_logo">Welcome logo</string>
+    <string name="composition_number">Склад числа</string>
+    <string name="game_rule">Правила гри: перед Вами буде три фігури, дві внизу і одна зверху, в
+    двох з них будуть числа. Необхідно, щоб сума чисел із двох нижніх фігур дорівнювала числу у
+    верхній фігурі. Для цтого потрібно обрати правильне число.\n \n
+    Приклад: У верхньому крузі число 7, в одному з нижніх знак запитання, а в іншому число 4.
+    Значить на місці знака запитання, має бути число 3, тому що 3 + 4 = 7</string>
+    <string name="understand">Зрозуміло</string>
+    <string name="choose_level">Оберіть рівень:</string>
+    <string name="Test">Тестовий</string>
+    <string name="easy">Легкий</string>
+    <string name="normal">Середній</string>
+    <string name="hard">Важкий</string>
+    <string name="game_over">Game Over</string>
+    <string name="count_right_answer">Необхідна кількість правильних відповідей: %s</string>
+    <string name="result">Ваш рахунок: %s</string>
+    <string name="percent_right_answer">Необхідний відсоток правильних відповідей: %s</string>
+    <string name="score_percentage">Відсоток правильних відповідей: %s</string>
+    <string name="retry">Спробувати знову</string>
+    <string name="question_mark">\?</string>
+    <string name="progress_answers">Правильних відповідей %s (мінімум %s)</string>
 </resources>
