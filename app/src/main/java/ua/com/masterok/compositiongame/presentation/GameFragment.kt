@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import ua.com.masterok.compositiongame.R
 import ua.com.masterok.compositiongame.databinding.FragmentGameBinding
 import ua.com.masterok.compositiongame.domain.entity.GameResult
@@ -18,6 +19,7 @@ class GameFragment : Fragment() {
         get() = _binding ?: throw RuntimeException("FragmentGameBinding == null")
 
     private lateinit var level: Level
+    private lateinit var viewModel: GameViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,11 +36,25 @@ class GameFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.tvQuestion.setOnClickListener {
-            launchGameFinishedFragment(GameResult(false,
-                10,
-                10,
-                GameSettings(10,2,3,5)))
+
+        viewModel = ViewModelProvider(this)[GameViewModel::class.java]
+        viewModel.countDownTimer(level)
+        viewModel.timer.observe(viewLifecycleOwner) {
+            val secs = it
+            val formatted = "${(secs / 60).toString().padStart(2, '0')}:${(secs % 60).toString().padStart(2, '0')}"
+            binding.tvTimer.text = formatted
+        }
+        viewModel.isTimerFinished.observe(viewLifecycleOwner) {
+            if (it) {
+                launchGameFinishedFragment(
+                    GameResult(
+                    false,
+                    10,
+                    10,
+                    GameSettings(10,2,3,2)
+                )
+                )
+            }
         }
     }
 
