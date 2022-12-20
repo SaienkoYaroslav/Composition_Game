@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import ua.com.masterok.compositiongame.R
 import ua.com.masterok.compositiongame.databinding.FragmentGameFinishedBinding
 import ua.com.masterok.compositiongame.domain.entity.GameResult
 
@@ -35,17 +36,20 @@ class GameFinishedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // перевизначити онБекПресед можна тільки в активіті, робиться це ось так
-        val callback =  object : OnBackPressedCallback(true) {
+        val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 retryGame()
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(
-            viewLifecycleOwner, callback)
+            viewLifecycleOwner, callback
+        )
 
         binding.buttonRetry.setOnClickListener {
             retryGame()
         }
+
+        bindingView()
     }
 
     override fun onDestroyView() {
@@ -64,6 +68,47 @@ class GameFinishedFragment : Fragment() {
             GameFragment.NAME,
             FragmentManager.POP_BACK_STACK_INCLUSIVE
         )
+    }
+
+    private fun bindingView() {
+        binding.emojiResult.setImageResource(getEmoticon())
+
+        binding.tvRequiredAnswers.text = String.format(
+            getString(R.string.count_right_answer),
+            gameResult.gameSettings.minCountOfRightAnswer.toString()
+        )
+
+        binding.tvScoreAnswers.text = String.format(
+                getString(R.string.result),
+                gameResult.countOfRightAnswers.toString()
+            )
+
+        binding.tvRequiredPercentage.text = String.format(
+            getString(R.string.percent_right_answer),
+            gameResult.gameSettings.minPercentOfRightAnswer.toString()
+        )
+
+        binding.tvScorePercentage.text = String.format(
+            getString(R.string.score_percentage),
+            getPercentOfRightAnswers().toString()
+        )
+
+    }
+
+    private fun getPercentOfRightAnswers(): Int {
+        return if (gameResult.countOfQuestions == 0) {
+            0
+        } else {
+            (gameResult.countOfRightAnswers * 100) / gameResult.countOfQuestions
+        }
+    }
+
+    private fun getEmoticon(): Int {
+        return if (gameResult.winner) {
+            R.drawable.ic_smile
+        } else {
+            R.drawable.ic_sad
+        }
     }
 
     companion object {
